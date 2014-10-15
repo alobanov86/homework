@@ -5,11 +5,16 @@ import java.util.Arrays;
 public class ArrayExercise {
     private static int[] firstArray = {1, 5, 4, 23, 65, 32, 78};
     private static int[] secondArray = {3, 5, 24, 4, 1, 2, 34, 45, 32, 5};
-    private static int[] sortedSecondArray;
-    private static int[] sortedFirstArray;
 
     //getting an array of different elements of firstArray and secondArray
-    private static int[] outerJoinUniqueElements(int[] firstArray, int[] secondArray) {
+    private static int[] outerUnion(int[] firstArray, int[] secondArray) {
+        if(firstArray == null && secondArray != null) return secondArray;
+        if(firstArray != null && secondArray == null) return firstArray;
+        if (firstArray == null && secondArray == null) return new int[0];
+        int[] sortedFirstArray = Arrays.copyOf(firstArray, firstArray.length);
+        int[] sortedSecondArray = Arrays.copyOf(secondArray, secondArray.length);
+        Arrays.sort(sortedFirstArray);
+        Arrays.sort(sortedSecondArray);
         int[] result1 = new int[0];
         for (int el : firstArray) {
             if (Arrays.binarySearch(sortedSecondArray, el) < 0) {
@@ -31,8 +36,10 @@ public class ArrayExercise {
     }
 
     //getting an array of common elements of firstArray and secondArray
-    private static int[] innerJoinUniqueElements(int[] firstArray, int[] secondArray) {
-
+    private static int[] innerUnion(int[] firstArray, int[] secondArray) {
+        if(firstArray == null || secondArray == null) return null;
+        int[] sortedSecondArray = Arrays.copyOf(secondArray, secondArray.length);
+        Arrays.sort(sortedSecondArray);
         int[] result = new int[0];
         for (int el : firstArray) {
             if (Arrays.binarySearch(sortedSecondArray, el) >= 0) {
@@ -43,30 +50,13 @@ public class ArrayExercise {
         return result;
     }
 
-    //Print of arr[] elements
-    private static void print(String str, int[] arr) {
-        System.out.print(str + ": ");
-        for (int i : arr) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-    }
-
     public static void main(String[] args) {
-        print("firstArray", firstArray);
-        print("secondArray", secondArray);
+        System.out.println("firstArray  : " + Arrays.toString(firstArray));
+        System.out.println("secondArray : " + Arrays.toString(secondArray));
 
-        //getting sorted Arrays for binarySearch purposes
-        sortedSecondArray = new int[secondArray.length];
-        sortedFirstArray = new int[firstArray.length];
-        System.arraycopy(secondArray, 0, sortedSecondArray, 0, secondArray.length);
-        Arrays.sort(sortedSecondArray);
-        System.arraycopy(firstArray, 0, sortedFirstArray, 0, firstArray.length);
-        Arrays.sort(sortedFirstArray);
-
-        int[] result1 = innerJoinUniqueElements(firstArray, secondArray);
-        int[] result2 = outerJoinUniqueElements(firstArray, secondArray);
-        print("innerJoinUniqueElements", result1);
-        print("outerJoinUniqueElements", result2);
+        int[] innerUnionArray = innerUnion(firstArray, secondArray);
+        int[] outerUnionArray = outerUnion(firstArray, secondArray);
+        System.out.println("innerUnionArray : " + Arrays.toString(innerUnionArray));
+        System.out.println("outerUnionArray : " + Arrays.toString(outerUnionArray));
     }
 }
